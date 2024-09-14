@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 class Program
 {
-    Journal journal = new Journal();
+    Journal _journal = new Journal();
 
     static void Main (string[] args) {
         Program program = new Program();
@@ -34,6 +34,12 @@ class Program
                     break;
             }
         }
+
+        // Criteria 10: Exceed core requirements
+        // If the user hasn't saved their journal prompt them to do so.
+        if (program.PromptUnsaved()) {
+            program.SaveJournal();
+        }
     }
 
     string GetResponse() {
@@ -60,14 +66,14 @@ class Program
 
         JournalEntry journalEntry = new JournalEntry(DateTime.Now, prompt, entry);
 
-        journal.AddEntry(journalEntry);
+        _journal.AddEntry(journalEntry);
     }
 
     void DisplayJournal() {
         /// <summary>
         ///  Criteria 4: Functionality: Journal Display
         /// </summary>
-        foreach (JournalEntry entry in journal.GetEntries()) {
+        foreach (JournalEntry entry in _journal.GetEntries()) {
             Console.WriteLine(entry.DisplayFormat());
         }
     }
@@ -75,13 +81,26 @@ class Program
     void SaveJournal() {
         Console.WriteLine("What is the filename?");
         string filename = Console.ReadLine();
-        journal.Save(filename);
+        _journal.Save(filename);
     }
 
     void LoadJournal() {
         Console.WriteLine("What is the filename?");
         string filename = Console.ReadLine();
-        journal = Journal.Load(filename);
+        _journal = Journal.Load(filename);
+    }
+
+    bool PromptUnsaved() {
+        if (!_journal.IsDirty())
+            return false;
+
+        Console.WriteLine("You haven't saved your journal. Save now? (Y/n) ");
+        string response = Console.ReadLine();
+        if (response.ToLower() == "n") {
+            return false;
+        }
+
+        return true;
     }
 }
 
@@ -90,14 +109,17 @@ class Journal {
     ///  Criteria 1: Journal abstration
     /// </summary>
     List<JournalEntry> _journalEntries;
+    bool _dirty;
 
     public Journal(List<JournalEntry> entries = null) {
         entries = entries ?? new List<JournalEntry>();
         _journalEntries = entries;
+        _dirty = false;
     }
 
     public void AddEntry(JournalEntry entry) {
         _journalEntries.Add(entry);
+        _dirty = true;
     }
 
     public List<JournalEntry> GetEntries() {
@@ -113,6 +135,11 @@ class Journal {
                 outputFile.WriteLine(entry.SaveFormat());
             }
         }
+        _dirty = false;
+    }
+
+    public bool IsDirty() {
+        return _dirty;
     }
 
     public static Journal Load(string filename) {
