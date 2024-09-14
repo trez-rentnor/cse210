@@ -18,10 +18,22 @@ class Program
         Console.Clear();
         _scripture.Write();
         Console.WriteLine();
-        Console.WriteLine("Press enter to continue or type 'quit' to finish:");
+
+        /// Criteria 10 - To exceed requirements, the user can type "flash" to view
+        /// the entire scripture for a short time
+        Console.WriteLine("Press enter to continue, type 'quit' to finish, or type 'flash' to see scripture:");
+
+        string response = Console.ReadLine().ToLower();
+
+        if (response == "flash") {
+            Console.Clear();
+            _scripture.Write(true);
+            Thread.Sleep(500);
+            return true;
+        }
 
         /// Criteria 7 - Functionality: Program Termination
-        if (Console.ReadLine().ToLower() == "quit") {
+        if (response == "quit") {
             return false;
         }
 
@@ -54,12 +66,12 @@ class Scripture {
         }
     }
 
-    public void Write() {
+    public void Write(bool showHidden = false) {
         /// Criteria 5 - Functionality: Scripture Display
         Console.Write(_reference.Display());
         foreach (Word word in _words) {
             Console.Write(" ");
-            Console.Write(word.Display());
+            Console.Write(word.Display(showHidden));
         }
         Console.WriteLine();
     }
@@ -111,8 +123,8 @@ class Word {
         _hidden = true;
     }
 
-    public string Display() {
-        if (_hidden) {
+    public string Display(bool showHidden = false) {
+        if (_hidden && !showHidden) {
             return new String('_', _text.Length);
         } else {
             return _text;
