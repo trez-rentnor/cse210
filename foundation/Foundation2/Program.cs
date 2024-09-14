@@ -5,6 +5,8 @@ class Program
     static void Main(string[] args)
     {
         List<Order> orders = BuildOrderList();
+
+        /// Critera 4: Fucntionality: Behaviors
         foreach (Order order in orders) {
             Console.WriteLine("=====================================================================================");
             Console.WriteLine();
@@ -23,6 +25,7 @@ class Program
     }
 
     static List<Order> BuildOrderList() {
+        /// Critera 3: Fucntionality: Object Creation
         return new List<Order> {
             new Order(
                 new Customer(
