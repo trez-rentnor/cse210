@@ -1,9 +1,9 @@
 class Address {
     /// Critera 1: Abstraction Classes
-    string _street;
-    string _city;
-    string _stateProvince;
-    string _country;
+    private string _street;
+    private string _city;
+    private string _stateProvince;
+    private string _country;
 
     public Address(string street, string city, string stateProvince, string country) {
         _street = street;

@@ -1,7 +1,7 @@
 class Customer {
     /// Critera 1: Abstraction Classes
-    string _name;
-    Address _address;
+    private string _name;
+    private Address _address;
 
     public Customer(string name, Address address) {
         _name = name;

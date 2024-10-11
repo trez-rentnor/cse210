@@ -1,7 +1,7 @@
 class Order {
     /// Critera 1: Abstraction Classes
-    List<Product> _products;
-    Customer _customer;
+    private List<Product> _products;
+    private Customer _customer;
 
     public Order(Customer customer, List<Product> products) {
         _customer = customer;
