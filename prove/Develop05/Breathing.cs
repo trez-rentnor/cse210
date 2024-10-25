@@ -9,15 +9,28 @@ class Breathing : Activity {
     }
 
     protected override void DoActivity(int length) {
+        /// Exceeding requirements - Shows a more complex animation
         DateTime endTime = DateTime.Now.AddSeconds(length);
+        List<String> frames = new List<String> {
+            ".     ",
+            ".~    ",
+            ".~*   ",
+            ".~*~  ",
+            ".~*~. ",
+            " ~*~. ",
+            "  *~. ",
+            "   ~. ",
+            "    . ",
+            "      "
+        };
 
         while (DateTime.Now <= endTime) {
             Console.WriteLine();
             Console.Write("Breathe in... ");
-            CountDown(Math.Min(5, (endTime - DateTime.Now).Seconds + 1));
+            ShowAnimation(Math.Min(5, (endTime - DateTime.Now).Seconds + 1), frames: frames);
             Console.WriteLine();
             Console.Write("Breathe out... ");
-            CountDown(Math.Min(7, (endTime - DateTime.Now).Seconds + 1));
+            ShowAnimation(Math.Min(5, (endTime - DateTime.Now).Seconds + 1), frames: frames);
             Console.WriteLine();
         }
     }

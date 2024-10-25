@@ -46,24 +46,20 @@ abstract class Activity {
         Console.Clear();
     }
 
-    protected void ShowAnimation(int duration, int delay = 200) {
+    protected void ShowAnimation(int duration, int delay = 200, List<String> frames = null) {
+        /// Exceeding requirements - Shows a more complex animation
         DateTime endTime = DateTime.Now.AddSeconds(duration);
-        List<string> frames = new List<string> {"|", "/", "-", "\\"};
+        frames ??= new List<string> {"|", "/", "-", "\\"};
 
-        while (true) {
+        while (DateTime.Now <= endTime) {
             foreach (string frame in frames) {
-                if (DateTime.Now >= endTime) {
-                    goto End;
-                }
-
-                Console.Write("\r");
                 Console.Write(frame);
                 Thread.Sleep(delay);
+                Console.Write($"{new String('\b', frame.Length)}");
+                Console.Write($"{new String(' ', frame.Length)}");
+                Console.Write($"{new String('\b', frame.Length)}");
             }
         }
-
-        End:
-        Console.Write("\r \r");
     }
 
     protected void CountDown(int seconds) {
